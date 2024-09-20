@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentApp - Главная</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Главная</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'user_dashboard' %}">Мой профиль</a></li>
+                    <li><a href="{% url 'property_list' %}">Мои объявления</a></li>
+                    <li><a href="{% url 'booking_list' %}">Мои бронирования</a></li>
+                    <li><a href="{% url 'user_analytics' %}">Аналитика</a></li>
+                    <li><a href="{% url 'logout' %}">Выйти</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Войти</a></li>
+                    <li><a href="{% url 'signup' %}">Регистрация</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Основной контент -->
+    <main>
+        <h1>Добро пожаловать в RentApp</h1>
+        <p>Платформа для аренды недвижимости. Создавайте свои объявления, бронируйте жильё и следите за аналитикой просмотров и бронирований!</p>
+
+        <div class="buttons">
+            {% if user.is_authenticated %}
+                <a href="{% url 'property_create' %}" class="btn">Создать объявление</a>
+                <a href="{% url 'property_search' %}" class="btn">Найти жильё</a>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn">Регистрация</a>
+                <a href="{% url 'login' %}" class="btn">Войти</a>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Подвал сайта -->
+    <footer>
+        <p>&copy; 2024 RentApp. Все права защищены.</p>
+        <ul>
+            <li><a href="#">Контакты</a></li>
+            <li><a href="#">Политика конфиденциальности</a></li>
+        </ul>
+    </footer>
+</body>
+</html>

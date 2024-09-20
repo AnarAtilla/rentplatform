@@ -1,0 +1,15 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
+.env
+
+# Docker
+*.log
+*.pid
+*.seed
+*.backup
+*.sqlite3
+.DS_Store

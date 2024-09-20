@@ -1,0 +1,13 @@
+{% load static %}
+{% extends 'base.html' %}
+
+{% block title %}Выход из системы{% endblock %}
+
+{% block content %}
+    <div class="logout-page">
+        <h1>Вы вышли из системы</h1>
+        <p>Вы успешно завершили сеанс. Спасибо за использование RentApp!</p>
+        <a href="{% url 'home' %}" class="btn">Вернуться на главную</a>
+        <a href="{% url 'login' %}" class="btn">Войти снова</a>
+    </div>
+{% endblock %}

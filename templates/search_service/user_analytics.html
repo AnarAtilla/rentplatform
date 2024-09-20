@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аналитика пользователя</title>
+</head>
+<body>
+    <h1>Аналитика пользователя</h1>
+
+    <h2>История поисков</h2>
+    <ul>
+        {% for search in search_history %}
+        <li>{{ search.keyword }} — {{ search.search_count }} раз (Последний поиск: {{ search.last_searched_at }})</li>
+        {% empty %}
+        <li>История поисков пуста.</li>
+        {% endfor %}
+    </ul>
+
+    <h2>История просмотров</h2>
+    <ul>
+        {% for view in view_history %}
+        <li>{{ view.property.title }} — {{ view.view_count }} просмотров (Последний просмотр: {{ view.last_viewed_at }})</li>
+        {% empty %}
+        <li>История просмотров пуста.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'user_dashboard' %}">Назад к личному кабинету</a>
+</body>
+</html>

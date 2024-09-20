@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+<a href="{% url 'login' %}">Войти</a>
+<a href="{% url 'logout' %}">Выйти</a>
+
+{% block content %}
+<h1>Создать новое объявление</h1>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Создать</button>
+</form>
+{% endblock %}

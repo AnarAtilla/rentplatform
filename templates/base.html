@@ -1,0 +1,31 @@
+{% load static %}
+< ! DOCTYPE html >
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Система аренды{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Домашняя</a></li>
+                <li><a href="{% url 'user_dashboard' %}">Личный кабинет</a></li>
+                <li><a href="{% url 'about' %}">О программе</a></li>
+                <li><a href="{% url 'logout' %}">Выйти</a></li>
+
+                <!-- Ссылки на API документацию -->
+                <li><a href="{% url 'schema-swagger-ui' %}">Swagger API</a></li>
+                <li><a href="{% url 'schema-redoc' %}">Redoc API</a></li>
+                <li><a href="{% url 'docs' %}">API Документация</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Система аренды</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Отменить бронирование{% endblock %}
+
+{% block content %}
+<h1>Вы уверены, что хотите отменить бронирование?</h1>
+
+<p>Объект: {{ booking.property.title }}</p>
+<p>Дата заезда: {{ booking.check_in }}</p>
+<p>Дата выезда: {{ booking.check_out }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit">Отменить бронирование</button>
+</form>
+
+<a href="{% url 'user_dashboard' %}">Назад</a>
+{% endblock %}
