@@ -19,6 +19,8 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app  # Связываем локальные файлы с контейнером
+      - static_volume:/app/staticfiles  # Для статических файлов
+      - media_volume:/app/media         # Для медиа-файлов
     ports:
       - "8000:8000"
     depends_on:
@@ -29,3 +31,5 @@ services:
 
 volumes:
   db_data:
+  static_volume:  # Для хранения статических файлов
+  media_volume:   # Для хранения медиа-файлов
