@@ -1,0 +1,9 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Booking Success{% endblock %}
+
+{% block content %}
+    <h1>Booking Successful!</h1>
+    <p>Your booking for {{ booking.rental_property.title }} has been created successfully!</p>
+    <a href="{% url 'profile' %}" class="btn btn-primary">Go to your profile</a>
+{% endblock %}

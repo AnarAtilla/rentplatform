@@ -1,0 +1,59 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Analytics Dashboard</h1>
+
+    <h3>Property Views</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Views</th>
+                <th>Bookings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in property_stats %}
+            <tr>
+                <td>{{ stat.property }}</td>
+                <td>{{ stat.views_count }}</td>
+                <td>{{ stat.bookings_count }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No analytics available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Booking Statistics</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Confirmed Bookings</th>
+                <th>Cancelled Bookings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in booking_stats %}
+            <tr>
+                <td>{{ stat.property }}</td>
+                <td>{{ stat.confirmed_bookings }}</td>
+                <td>{{ stat.cancelled_bookings }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No booking statistics available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}

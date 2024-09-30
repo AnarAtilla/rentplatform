@@ -1,15 +1,12 @@
 from rest_framework import permissions
 
-
-class IsGuestOrReadOnly(permissions.BasePermission):
+class IsOwnerOrReadOnly(permissions.BasePermission):
     """
-    Разрешение только для гостя, который создал бронирование.
+    Кастомное разрешение, позволяющее управлять объектом только его владельцам.
     """
-
     def has_object_permission(self, request, view, obj):
-        # Разрешить чтение всем
+        # Разрешение на чтение для всех запросов
         if request.method in permissions.SAFE_METHODS:
             return True
-
-        # Разрешить изменения только гостю, который сделал бронирование
+        # Проверяем, что текущий пользователь является владельцем бронирования
         return obj.guest == request.user

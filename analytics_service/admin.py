@@ -1,10 +1,14 @@
 from django.contrib import admin
-from analytics_service.models import SearchAnalytics, PopularPropertyAnalytics  # Импортируем модели
+from .models import PropertyView, SearchQuery
 
-@admin.register(SearchAnalytics)
-class SearchAnalyticsAdmin(admin.ModelAdmin):
-    list_display = ('user', 'search_term', 'search_date', 'results_count')
+@admin.register(PropertyView)
+class PropertyViewAdmin(admin.ModelAdmin):
+    list_display = ('property', 'user', 'view_date')
+    list_filter = ('property', 'view_date')
+    search_fields = ('property__title', 'user__email')
 
-@admin.register(PopularPropertyAnalytics)
-class PopularPropertyAnalyticsAdmin(admin.ModelAdmin):
-    list_display = ('property', 'views_count', 'bookings_count')
+@admin.register(SearchQuery)
+class SearchQueryAdmin(admin.ModelAdmin):
+    list_display = ('user', 'query', 'results_count', 'search_date')
+    list_filter = ('search_date',)
+    search_fields = ('query', 'user__email')

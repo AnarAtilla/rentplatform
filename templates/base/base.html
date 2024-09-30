@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RentApp{% endblock %}</title>
+
+    <!-- Подключение Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-light bg-light">
+        <a href="{% url 'home' %}" class="navbar-brand">RentApp</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a href="{% url 'account_login' %}" class="nav-link">Вход</a></li>
+            <li class="nav-item"><a href="{% url 'account_signup' %}" class="nav-link">Регистрация</a></li>
+        </ul>
+    </header>
+
+    <!-- Content -->
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">© 2024 RentApp. Все права защищены.</span>
+        </div>
+    </footer>
+
+    <!-- Подключение Bootstrap JS -->
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

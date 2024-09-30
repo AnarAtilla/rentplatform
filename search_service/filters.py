@@ -1,9 +1,8 @@
+
 import django_filters
-from search_service.models import SearchAnalytics
+from property_service.models import Property
 
-class SearchAnalyticsFilter(django_filters.FilterSet):
-    search_term = django_filters.CharFilter(lookup_expr='icontains')
-
+class PropertyFilter(django_filters.FilterSet):
     class Meta:
-        model = SearchAnalytics
-        fields = ['search_term', 'search_date']
+        model = Property
+        fields = ['title', 'location', 'price']

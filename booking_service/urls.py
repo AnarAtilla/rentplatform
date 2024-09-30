@@ -1,8 +1,9 @@
 from django.urls import path
-from booking_service import views
+from .views import BookingListCreateView, BookingDetailView, BookingListByPropertyView, BookingListByUserView
 
 urlpatterns = [
-    path('create/', views.BookingCreateView.as_view(), name='create_booking'),
-    path('list/', views.BookingListView.as_view(), name='booking_list'),
-    path('cancel/<int:pk>/', views.BookingCancelView.as_view(), name='cancel_booking'),
+    path('bookings/', BookingListCreateView.as_view(), name='booking_list_create'),
+    path('bookings/<int:pk>/', BookingDetailView.as_view(), name='booking_detail'),
+    path('property/<int:property_id>/bookings/', BookingListByPropertyView.as_view(), name='property_bookings'),
+    path('my-bookings/', BookingListByUserView.as_view(), name='user_bookings'),
 ]

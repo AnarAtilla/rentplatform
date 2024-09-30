@@ -1,42 +1,25 @@
-# user_service/serializers.py
-from django.contrib.auth.models import User
 from rest_framework import serializers
-from django.contrib.auth.password_validation import validate_password
-from rest_framework.validators import UniqueValidator
+from .models import User
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['email', 'password', 'is_landlord', 'company_name', 'address', 'phone_number']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            email=validated_data['email'],
+            password=validated_data['password'],
+            is_landlord=validated_data.get('is_landlord', False),
+            company_name=validated_data.get('company_name', ''),
+            address=validated_data.get('address', ''),
+            phone_number=validated_data.get('phone_number', '')
+        )
+        return user
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name']
-
-class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-        required=True,
-        validators=[UniqueValidator(queryset=User.objects.all())]
-    )
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-    password2 = serializers.CharField(write_only=True, required=True)
-
-    class Meta:
-        model = User
-        fields = ['username', 'password', 'password2', 'email', 'first_name', 'last_name']
-
-    def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError({"password": "Пароли не совпадают."})
-        return attrs
-
-    def create(self, validated_data):
-        user = User.objects.create(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
-class ChangePasswordSerializer(serializers.Serializer):
-    old_password = serializers.CharField(required=True)
-    new_password = serializers.CharField(required=True)
+        fields = ['email', 'is_landlord', 'company_name', 'address', 'phone_number', 'additional_contact_info', 'status']

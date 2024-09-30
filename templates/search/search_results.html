@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Результаты поиска{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Результаты поиска</h2>
+
+    <form method="get" action="{% url 'search_results' %}" class="mb-4">
+        <div class="row justify-content-center">
+            <div class="col-md-3 mb-3">
+                <input type="text" name="location" value="{{ request.GET.location }}" class="form-control" placeholder="Город, регион">
+            </div>
+            <div class="col-md-2 mb-3">
+                <select name="property_type" class="form-control">
+                    <option value="">Тип недвижимости</option>
+                    {% for type, name in property_types %}
+                    <option value="{{ type }}" {% if request.GET.property_type == type %}selected{% endif %}>
+                        {{ name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2 mb-3">
+                <input type="date" name="checkin" value="{{ request.GET.checkin }}" class="form-control" placeholder="Дата заезда">
+            </div>
+            <div class="col-md-2 mb-3">
+                <input type="date" name="checkout" value="{{ request.GET.checkout }}" class="form-control" placeholder="Дата выезда">
+            </div>
+            <div class="col-md-2 mb-3">
+                <button type="submit" class="btn btn-primary w-100">Найти</button>
+            </div>
+        </div>
+    </form>
+
+    {% if properties %}
+        <div class="row">
+            {% for property in properties %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if property.photos %}
+                            <img src="{{ property.photos.url }}" class="card-img-top" alt="{{ property.title }}">
+                        {% else %}
+                            <img src="{% static 'images/default-image.jpg' %}" class="card-img-top" alt="{{ property.title }}">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ property.title }}</h5>
+                            <p class="card-text">{{ property.description|truncatewords:20 }}</p>
+                            <p class="card-text font-weight-bold">{{ property.price }} руб./ночь</p>
+                            <a href="{% url 'property_detail' property.pk %}" class="btn btn-primary mt-auto">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            Нет доступных объектов недвижимости на указанные даты.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
