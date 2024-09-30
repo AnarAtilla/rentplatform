@@ -1,21 +1,14 @@
-# Используем официальный образ Python с поддержкой Django
-FROM python:3.9-slim
+# Использование Python 3.10 в качестве базового образа
+FROM python:3.10-slim
 
-# Устанавливаем рабочую директорию внутри контейнера
+# Далее ваши команды для установки зависимостей и настройки проекта
 WORKDIR /app
 
-# Копируем файл с зависимостями проекта в контейнер
 COPY requirements.txt /app/
 
-# Устанавливаем зависимости
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Копируем всё содержимое проекта в контейнер
-COPY . /app/
+COPY . /app
 
-# Открываем порт для приложения
-EXPOSE 8000
-
-# Выполняем миграции и запускаем сервер Django
-CMD ["python", "manage.py", "migrate"]
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "rentapp.wsgi:application"]
