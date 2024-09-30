@@ -1,0 +1,83 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ property.title }} | RentApp{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">{{ property.title }}</h1>
+
+    {% if property.photos %}
+        <img src="{{ property.photos.url }}" alt="{{ property.title }}" class="img-fluid mb-3">
+    {% else %}
+        <img src="{% static 'images/default-image.jpg' %}" alt="{{ property.title }}" class="img-fluid mb-3">
+    {% endif %}
+
+    <p>{{ property.description }}</p>
+    <p><strong>Цена:</strong> {{ property.price }} руб./ночь</p>
+    <p><strong>Местоположение:</strong> {{ property.location }}</p>
+    <p><strong>Количество комнат:</strong> {{ property.rooms }}</p>
+    <p><strong>Количество ванных комнат:</strong> {{ property.bathrooms }}</p>
+
+    <!-- Форма для бронирования -->
+    <h3>Забронировать это жилье</h3>
+    <form method="post" action="{% url 'create_booking' property.id %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="checkin">Дата заезда</label>
+                <input type="date" name="checkin" id="checkin" class="form-control" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="checkout">Дата выезда</label>
+                <input type="date" name="checkout" id="checkout" class="form-control" required>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="guests">Количество гостей</label>
+                <input type="number" name="guests" id="guests" class="form-control" min="1" max="{{ max_guests }}" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p><strong>Общая стоимость: </strong> <span id="total_price">0</span> руб.</p>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Забронировать</button>
+    </form>
+</div>
+
+<div class="col-md-4 mb-3">
+    <label for="payment_method">Метод оплаты</label>
+    <select name="payment_method" id="payment_method" class="form-control">
+        <option value="card">Банковская карта</option>
+        <option value="cash">Наличные при заезде</option>
+    </select>
+</div>
+
+
+<script>
+    // JavaScript для расчета общей стоимости на основе дат и цены за ночь
+    document.addEventListener('DOMContentLoaded', function() {
+        const pricePerNight = {{ property.price }};
+        const checkinInput = document.getElementById('checkin');
+        const checkoutInput = document.getElementById('checkout');
+        const totalPriceElem = document.getElementById('total_price');
+
+        function calculateTotalPrice() {
+            const checkin = new Date(checkinInput.value);
+            const checkout = new Date(checkoutInput.value);
+            const nights = (checkout - checkin) / (1000 * 60 * 60 * 24);
+
+            if (nights > 0) {
+                totalPriceElem.textContent = nights * pricePerNight;
+            } else {
+                totalPriceElem.textContent = 0;
+            }
+        }
+
+        checkinInput.addEventListener('change', calculateTotalPrice);
+        checkoutInput.addEventListener('change', calculateTotalPrice);
+    });
+</script>
+
+{% endblock %}

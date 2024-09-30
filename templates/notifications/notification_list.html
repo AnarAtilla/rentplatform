@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Your Notifications{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Notifications</h1>
+    <ul class="list-group">
+        {% for notification in notifications %}
+            <li class="list-group-item">
+                {{ notification.message }}
+                <small class="text-muted">{{ notification.timestamp }}</small>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No notifications found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Delete Property{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Delete Property</h1>
+    <p>Are you sure you want to delete {{ property.title }}?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Property</button>
+        <a href="{% url 'property_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

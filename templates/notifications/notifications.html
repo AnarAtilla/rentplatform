@@ -1,0 +1,17 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Уведомления | RentApp{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Ваши уведомления</h2>
+    <ul class="list-group">
+        {% for notification in notifications %}
+        <li class="list-group-item{% if not notification.read %} list-group-item-warning{% endif %}">
+            {{ notification.message }} <span class="badge badge-info">{{ notification.date }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
