@@ -5,9 +5,12 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libssl-dev \
     libffi-dev \
-    libmysqlclient-dev \
+    libmariadb-dev-compat \
+    libmariadb-dev \
     pkg-config \
     && apt-get clean
+
+
 
 # Устанавливаем рабочую директорию
 WORKDIR /app
